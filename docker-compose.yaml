@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  wordpress:
+    image: ismaelperal/lpic-devops-dockerhub
+    ports: 
+        - 80:80
+    networks:
+      - backend
+
+networks:
+  backend:
