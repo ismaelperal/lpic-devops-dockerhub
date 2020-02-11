@@ -1,7 +1,6 @@
 #!/bin/bash
 
-apt install nfs-kernel-server
-mkdir -m 1777 /srv/nfs
-echo '/srv/nfs *(rw,no_root_squash,no_subtree_check)' >> /etc/exports
-Acuerdate: systemctl restart nfs-kernel-server
-echo '192.168.20.216 (rw,no_root_squash,no_subtree_check) 192.168.20.217 (rw,no_root_squash,no_subtree_check) 192.168.20.218 (rw,no_root_squash,no_subtree_check)' > /etc/export 
+apt install nfs-client
+mkdir /srv/docker
+echo '192.168.20.218:/srv/nfs    /srv/docker    nfs   defaults,_netdev,soft,intr 0 0' >> /etc/fstab
+mount -a
