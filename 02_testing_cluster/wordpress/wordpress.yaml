@@ -1,0 +1,54 @@
+version: '3.6'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - backend
+      - proxy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    deploy:
+      replicas: 1
+      labels:
+        traefik.port: 80
+        traefik.frontend.rule: "Host:wordpress.192.168.20.218.nip.io,wordpress.192.168.20.217.nip.io,wordpress.192.168.20.216.nip.io"
+        traefik.docker.network: 'proxy'
+
+volumes:
+  db_data: 
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.20.218,nolock,soft,rw"
+      device: ":/srv/nfs/volumes/wordpress/mysql"
+  wp_data:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.20.218,nolock,soft,rw"
+      device: ":/srv/nfs/volumes/wordpress/wp_data"
+
+
+networks:
+  backend:
+    driver: 'overlay'
+  proxy:
+    external: true
+
+

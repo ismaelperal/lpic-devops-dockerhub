@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  redis:
+    image: redis:latest
+    networks:
+      - backend
+
+  web:
+    image: kpeiruza/docker-php-mysql-redis:latest
+    networks:
+      - backend
+      - proxy
+    deploy:
+      replicas: 4
+      labels:
+        traefik.port: 80
+        traefik.frontend.rule: "Host:sesionero.192.168.20.218.nip.io,sesionero.192.168.20.217.nip.io,sesionero.192.168.20.216.nip.io"
+        traefik.docker.network: 'proxy'
+
+networks:
+  backend:
+    driver: 'overlay'
+  proxy:
+    external: true

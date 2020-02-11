@@ -1,0 +1,37 @@
+version: "3.6"
+services:
+  loki:
+    image: grafana/loki:master
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
+      - proxy
+    deploy:
+      replicas: 1
+      labels:
+        traefik.port: 3100
+        traefik.frontend.rule: "Host:loki.192.168.20.218.nip.io,loki.192.168.20.217.nip.io,loki.192.168.20.216.nip.io"
+        traefik.docker.network: 'proxy'
+  promtail:
+    image: grafana/promtail:master
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/docker-config.yaml
+    networks:
+      - loki
+  grafana:
+    image: grafana/grafana:master
+    networks:
+      - loki
+      - proxy
+    deploy:
+      replicas: 1
+      labels:
+        traefik.port: 3000
+        traefik.frontend.rule: "Host:grafana.192.168.20.218.nip.io,grafana.192.168.20.217.nip.io,grafana.192.168.20.216.nip.io"
+        traefik.docker.network: 'proxy'
+
+networks:
+  loki:
+  proxy:
+    external: true

@@ -19,7 +19,7 @@ services:
       replicas: 1
       labels:
         traefik.port: 80
-        traefik.frontend.rule: "Host:wordpress.192.168.20.218.nip.io"
+        traefik.frontend.rule: "Host:wordpress.192.168.20.218.nip.io,wordpress.192.168.20.217.nip.io,wordpress.192.168.20.216.nip.io"
         traefik.docker.network: 'proxy'
   db:
     image: library/mysql:5.7
