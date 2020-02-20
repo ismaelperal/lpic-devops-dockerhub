@@ -11,6 +11,7 @@ services:
       - "--docker"
       - "--docker.swarmmode"
       - "--docker.watch"
+      - "--accesslog"
     networks:
       - proxy
     volumes:

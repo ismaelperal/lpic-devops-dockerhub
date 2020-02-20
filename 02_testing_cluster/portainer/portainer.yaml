@@ -13,6 +13,8 @@ services:
   portainer:
     image: portainer/portainer
     command: '-H "tcp://tasks.agent:9001" --tlsskipverify'
+    environment:
+      LOGSPOUT: 'ignore'
     ports:
       - ${PUBLIC_PORT}:9000
     networks:
@@ -35,6 +37,7 @@ services:
     image: portainer/agent
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
+      LOGSPOUT: 'ignore'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
