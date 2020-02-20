@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress-ui
+spec:
+  rules:
+  - host: wordpress.192.168.99.100.nip.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wordpress
+          servicePort: web

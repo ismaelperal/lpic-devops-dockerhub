@@ -7,14 +7,11 @@ metadata:
 spec:
   ports:
     - port: 80
+      name: web
   selector:
     app: wordpress
     tier: frontend
-  type: NodePort
-  ports:
-    - port: 80
-      nodePort: 30080
-      name: http
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
