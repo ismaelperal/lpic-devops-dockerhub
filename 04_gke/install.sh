@@ -31,8 +31,17 @@ chmod 700 get_helm.sh
 helm repo add stable https://kubernetes-charts.storage.googleapis.com
 
 # Buy IP
-
-# Edit Values
+# EDIT values IPs/Hostnames/INGRESSES accordingly!!!
 
 # Install Traefik
-helm install traefik-ingress  stable/traefik --namespace kube-system --values traefik/values.yaml
+kubectl create namespace traefik
+helm upgrade traefik-ingress stable/traefik --namespace traefik-ingress --values values-traefik.yaml --install
+# Install Wordpress
+kubectl create namespace wordpress
+helm upgrade mysql stable/mysql --namespace wordpress --values values-mysql.yaml --install
+helm upgrade wordpress stable/wordpress --namespace wordpress --values values-wordpress.yaml --install
+# Install MariaDB
+kubectl create namespace mariadb
+helm upgrade mariadb stable/mariadb --namespace mariadb --install
+# Install Jenkins
+kubectl create namespace jenkins
