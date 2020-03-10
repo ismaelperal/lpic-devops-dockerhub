@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+    - name: Voy a hacer un update keloflipas
+      include: "do-{{ansible_os_family|lower}}.yaml"

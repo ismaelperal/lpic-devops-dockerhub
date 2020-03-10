@@ -1,0 +1,6 @@
+- name: Upgrade all packages to the latest version
+  apt:
+    update_cache: true
+    name: "*"
+    state: latest
+  become: true

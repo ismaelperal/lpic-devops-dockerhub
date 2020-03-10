@@ -1,0 +1,31 @@
+- hosts: all
+  tasks:
+    - name: Ensure group "operadores" exists
+      group:
+        name: operadores
+        state: present
+      become: true
+    
+    - name: Create an user named piltrafilla 
+      user: 
+        name: piltrafilla
+        shell: /bin/bash
+        groups: operadores
+        ssh_key_file: ~/.ssh/id_ed25519
+        append: yes
+      become: true
+    
+    - name: Set authorized key for user ubuntu copying it from current user
+      authorized_key:
+        user: piltrafilla
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ed25519.pub') }}"
+      become: true
+
+    - name: Change home folder permissions
+      file:
+        path: /home/piltrafilla
+        state: directory
+        mode: 0700
+      become: true
+    

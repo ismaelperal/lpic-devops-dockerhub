@@ -1,0 +1,29 @@
+---
+# tasks file for add-operator
+- name: Ensure group ""{{operator_group}}"" exists
+  group:
+    name: "{{operator_group}}"
+    state: present
+  become: true
+
+- name: Create an user named "{{operator_name}}" 
+  user: 
+    name: "{{operator_name}}"
+    shell: /bin/bash
+    groups: "{{operator_group}}"
+    append: yes
+  become: true
+
+- name: Set authorized key for user ubuntu copying it from current user
+  authorized_key:
+    user: "{{operator_name}}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + operator_ssh_pub_key) }}"
+  become: true
+
+- name: Change home folder permissions
+  file:
+    path: "/home/{{operator_name}}"
+    state: directory
+    mode: 0700
+  become: true

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  roles: 
+    - update
+    - role: add-operator
+      vars:
+        operator_name: piltrafilla
+        operator_ssh_pub_key: /.ssh/id_ed25519.pub
+        operator_group: operadores

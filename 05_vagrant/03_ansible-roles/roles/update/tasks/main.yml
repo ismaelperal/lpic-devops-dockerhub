@@ -1,0 +1,4 @@
+---
+# tasks file for update
+- name: Make a full update
+  include: "do-{{ansible_os_family|lower}}.yaml"
