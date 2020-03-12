@@ -1,0 +1,9 @@
+stage('Build') {
+  build 'webservice-build'
+}
+stage('Test') {
+  build 'webservice-test'
+}
+stage('Publish') {
+  build 'webservice-publish'
+}
