@@ -43,5 +43,3 @@ helm upgrade wordpress stable/wordpress --namespace wordpress --values values-wo
 # Install MariaDB
 kubectl create namespace mariadb
 helm upgrade mariadb stable/mariadb --namespace mariadb --install
-# Install Jenkins
-kubectl create namespace jenkins
